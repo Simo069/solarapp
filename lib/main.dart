@@ -1,4 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:solarapp/screens/auth/AccountScreen.dart';
+import 'package:solarapp/screens/InstallerMapScreen.dart';
+import 'package:solarapp/screens/InstallerProfileScreen.dart';
+import 'package:solarapp/screens/NotificationScreen.dart';
+import 'package:solarapp/screens/auth/Newpassword.dart';
+import 'package:solarapp/screens/auth/ResetPasswordScreen.dart';
+import 'package:solarapp/screens/auth/createAccount.dart';
+import 'package:solarapp/screens/auth/createAccountInfo.dart';
+import 'package:solarapp/screens/auth/loginScreen.dart';
+import 'package:solarapp/screens/auth/loginSuccessScreen.dart';
+import 'package:solarapp/screens/editProfile.dart';
+import 'package:solarapp/screens/settingScreen.dart';
+import 'package:solarapp/solardashboard.dart';
+import 'package:solarapp/screens/auth/OTPVerificationScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,8 +26,24 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
+      color: Colors.white,
       debugShowCheckedModeBanner: false,
-      home: Text("tess^11"),
+      // home: solardashboard(),
+      // home:InstallerProfileScreen(),
+      // home: InstallerMapScreen(),
+      // home: AccountScreen(),
+      // home: settingScreen(),
+      // home: editProfile(),
+      // home: Notificationscreen(),
+      // home: Newpassword(),
+      // home: loginScreen(),
+      // home : loginSuccessScreen(),
+      // home: createAccount(),
+      // home:createAccountInfo(),
+      // home: OTPVerificationScreen(),
+      home:Resetpasswordscreen(),
+
+
     );
   }
 }
