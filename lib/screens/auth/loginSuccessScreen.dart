@@ -54,7 +54,7 @@ class _loginSuccessScreenState extends State<loginSuccessScreen> {
               child: ElevatedButton(
                 onPressed: () {
                   // Navigate to home screen or next screen
-                  Navigator.pushReplacementNamed(context, '/home');
+                  Navigator.pushReplacementNamed(context, '/dashboard');
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green.shade800,

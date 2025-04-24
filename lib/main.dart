@@ -1,3 +1,5 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:solarapp/screens/auth/AccountScreen.dart';
 import 'package:solarapp/screens/InstallerMapScreen.dart';
@@ -12,11 +14,37 @@ import 'package:solarapp/screens/auth/loginSuccessScreen.dart';
 import 'package:solarapp/screens/auth/otpVerficationResetpassword.dart';
 import 'package:solarapp/screens/editProfile.dart';
 import 'package:solarapp/screens/settingScreen.dart';
+import 'package:solarapp/services/fireAuth/UserProvider.dart';
 import 'package:solarapp/solardashboard.dart';
 import 'package:solarapp/screens/auth/OTPVerificationScreen.dart';
 
-void main() {
-  runApp(MyApp());
+
+import 'package:provider/provider.dart';
+
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  if(kIsWeb){
+    await Firebase.initializeApp(
+      options: const FirebaseOptions(
+        apiKey: "AIzaSyBECGU9l5JBNrqIYHctTnxB1r2sqMCj6GA",
+        // authDomain: "solarapp-12345.firebaseapp.com",
+        projectId: "solarapp-1e8ca",
+        // storageBucket: "solarapp-12345.appspot.com",
+        messagingSenderId: "428339605589",
+        appId: "1:428339605589:web:41e226138118cf130664dc",
+      ),
+    );
+  }else{
+    await Firebase.initializeApp();
+  }
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
