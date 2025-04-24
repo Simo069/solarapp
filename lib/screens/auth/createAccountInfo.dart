@@ -16,6 +16,16 @@ class _createAccountinfoState extends State<createAccountInfo> {
   TextEditingController _lastNameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _passwordConfirmController = TextEditingController();
+  TextEditingController _phoneController = TextEditingController();
+
+  void dispose() {
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _passwordController.dispose();
+    _passwordConfirmController.dispose();
+    _phoneController.dispose();
+    super.dispose();
+  }
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,6 +103,23 @@ class _createAccountinfoState extends State<createAccountInfo> {
                   ),
                   SizedBox(height: 16),
                   _buildTextField(
+                    label: "Phone Number",
+                    hint: "Enter your phone number",
+                    icon: Icons.phone,
+                    controller: _phoneController,
+                    keyboardType: TextInputType.phone,
+                    validator: (value) {
+                      final phoneRegex = RegExp(r'^\+?[0-9]{8,15}$');
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your phone number';
+                      } else if (!phoneRegex.hasMatch(value)) {
+                        return 'Invalid phone number';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 16),
+                  _buildTextField(
                     label: "Enter your password",
                     hint: "Enter your password",
                     icon: Icons.lock_outline_sharp,
@@ -103,17 +130,22 @@ class _createAccountinfoState extends State<createAccountInfo> {
                         _obscurePassword = !_obscurePassword;
                       });
                     },
-                    validator:
-                        (value) =>
-                            value == null || value.isEmpty
-                                ? "Please enter your password"
-                                : null,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Please enter your password";
+                      }
+                      if (value.length < 8) {
+                        return "Password must be at least 8 characters";
+                      }
+                      return null;
+                    },
                   ),
                   SizedBox(height: 16),
                   _buildTextField(
                     label: "Re Type Password",
                     hint: "Re Type Password",
                     icon: Icons.lock,
+
                     controller: _passwordConfirmController,
                     obscureText: _obscureConfirmPassword,
                     toggleVisibility: () {
@@ -154,17 +186,10 @@ class _createAccountinfoState extends State<createAccountInfo> {
                             );
                             debugPrint("Password: ${_passwordController.text}");
 
-                            // ScaffoldMessenger.of(context).showSnackBar(
-                            //   SnackBar(
-                            //     content: Text(
-                            //       "Account created successfully ${_firstNameController.text} ",style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700 , backgroundColor: Colors.green[500])
-                            //     ),
-                            //   ),
-                            // );
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(
-                                  "Account created successfully!",
+                                  "Information saved successfully!",
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w600,
@@ -189,6 +214,12 @@ class _createAccountinfoState extends State<createAccountInfo> {
                             _lastNameController.clear();
                             _passwordController.clear();
                             _passwordConfirmController.clear();
+                            _phoneController.clear();
+
+                            Navigator.pushNamed(
+                              context,
+                              '/OTPVerificationScreen',
+                            );
                           } else {
                             debugPrint("testst 222");
                             // ScaffoldMessenger.of(context).showSnackBar(
@@ -257,6 +288,7 @@ class _createAccountinfoState extends State<createAccountInfo> {
     required String hint,
     required IconData icon,
     required TextEditingController controller,
+    TextInputType keyboardType = TextInputType.text,
     String? Function(String?)? validator,
     bool obscureText = false,
     VoidCallback? toggleVisibility,
@@ -277,6 +309,7 @@ class _createAccountinfoState extends State<createAccountInfo> {
           controller: controller,
           obscureText: obscureText,
           validator: validator,
+          keyboardType: keyboardType,
           decoration: InputDecoration(
             hintText: hint,
             hintStyle: TextStyle(color: Colors.grey),

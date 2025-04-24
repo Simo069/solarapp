@@ -258,8 +258,14 @@ class _NewpasswordState extends State<Newpassword> {
                             borderRadius: BorderRadius.circular(12)),
                           
                         ),
+
                       );
+                      
+                      _passwordController1.clear();
+                      _passwordController2.clear();
+                      Navigator.pushNamed(context, '/loginScreen');
                     }
+
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green[800],

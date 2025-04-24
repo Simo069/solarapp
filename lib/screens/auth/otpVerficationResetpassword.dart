@@ -2,12 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-class OTPVerificationScreen extends StatefulWidget {
+class otpVerficationResetpassword extends StatefulWidget {
   @override
-  _OTPVerificationScreenState createState() => _OTPVerificationScreenState();
+  _otpVerficationResetpasswordState createState() =>
+      _otpVerficationResetpasswordState();
 }
 
-class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
+class _otpVerficationResetpasswordState
+    extends State<otpVerficationResetpassword> {
   final TextEditingController _otpController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late Timer _timer;
@@ -42,19 +44,20 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
   void _verifyOTP() {
     if (_formKey.currentState!.validate()) {
       // Simulate verification process
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("OTP Verified Successfully") , 
-      backgroundColor: Colors.green,
-      elevation: 6,
-      duration: Duration(seconds: 3),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      behavior: SnackBarBehavior.floating,
-      ),
-      
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("OTP Verified Successfully"),
+          backgroundColor: Colors.green,
+          elevation: 6,
+          duration: Duration(seconds: 3),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          behavior: SnackBarBehavior.floating,
+        ),
       );
       // Navigate to the next screen or create the account
-      Navigator.pushNamed(context, '/loginScreen');
+      Navigator.pushNamed(context, '/Newpassword');
     }
   }
 
@@ -64,15 +67,16 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
       _canResend = false;
     });
     _startTimer();
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text("Verification code resent!"),
-    backgroundColor: Colors.orange,
-    behavior: SnackBarBehavior.floating,
-    elevation: 6,
-    duration: Duration(seconds: 3),
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))
-    ));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("Verification code resent!"),
+        backgroundColor: Colors.orange,
+        behavior: SnackBarBehavior.floating,
+        elevation: 6,
+        duration: Duration(seconds: 3),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      ),
+    );
   }
 
   @override
@@ -135,12 +139,24 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                           borderSide: BorderSide(color: Colors.green),
                         ),
                       ),
+                      // validator: (value) {
+                      //   if (value == null || value.isEmpty) {
+                      //     return 'Please enter the verification code';
+                      //   }
+                      //   if (value.length != 5) {
+                      //     return 'Code must be 5 digits';
+                      //   }
+                      //   return null;
+                      // },
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter the verification code';
                         }
                         if (value.length != 5) {
                           return 'Code must be 5 digits';
+                        }
+                        if (value != '12345') {
+                          return 'Invalid verification code';
                         }
                         return null;
                       },
@@ -172,12 +188,12 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                           borderRadius: BorderRadius.circular(16),
                         ),
                       ),
-                      onPressed: (){
+                      onPressed: () {
                         _verifyOTP();
-                        
+                        // Navigator.pushNamed(context, '/Newpassword');
                       },
                       child: Text(
-                        "Verify and Create Account",
+                        "Verify and Reset Password",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,

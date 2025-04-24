@@ -9,6 +9,7 @@ import 'package:solarapp/screens/auth/createAccount.dart';
 import 'package:solarapp/screens/auth/createAccountInfo.dart';
 import 'package:solarapp/screens/auth/loginScreen.dart';
 import 'package:solarapp/screens/auth/loginSuccessScreen.dart';
+import 'package:solarapp/screens/auth/otpVerficationResetpassword.dart';
 import 'package:solarapp/screens/editProfile.dart';
 import 'package:solarapp/screens/settingScreen.dart';
 import 'package:solarapp/solardashboard.dart';
@@ -41,9 +42,29 @@ class _MyAppState extends State<MyApp> {
       // home: createAccount(),
       // home:createAccountInfo(),
       // home: OTPVerificationScreen(),
-      home:Resetpasswordscreen(),
+      // home:ResetPasswordscreen(),
+      initialRoute: '/loginScreen',
+      routes:{
+        '/loginScreen': (context) => loginScreen(),
+        '/dashboard': (context) => solardashboard(),
+        '/InstallerProfileScreen': (context) => InstallerProfileScreen(),
+        '/InstallerMapScreen': (context) => InstallerMapScreen(),
+        '/AccountScreen': (context) => AccountScreen(),
+        '/settingScreen': (context) => settingScreen(),
+        '/editProfile': (context) => editProfile(),
+        '/Notificationscreen': (context) => Notificationscreen(),
+        
+        // '/loginScreen': (context) => loginScreen(),
+        '/loginSuccessScreen': (context) => loginSuccessScreen(),
+        '/createAccount': (context) => createAccount(),
+        '/createAccountInfo': (context) => createAccountInfo(),
+        '/OTPVerificationScreen': (context) => OTPVerificationScreen(),
+        '/ResetPasswordscreen': (context) => ResetPasswordscreen(),
+        '/otpVerficationResetpassword' : (context) => otpVerficationResetpassword(),
+        '/Newpassword': (context) => Newpassword(),
+      },
 
-
+      
     );
   }
 }

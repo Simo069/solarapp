@@ -143,7 +143,6 @@
 //                       ),
 //                       SizedBox(height: 20),
 
-
 //                     ],
 //                   ),
 //                 ),
@@ -166,6 +165,8 @@ class ResetPasswordscreen extends StatefulWidget {
 }
 
 class _ResetPasswordscreenState extends State<ResetPasswordscreen> {
+  final _formKey = GlobalKey<FormState>();
+
   final TextEditingController _emailController = TextEditingController();
   bool _isEmailValid = false;
 
@@ -192,15 +193,33 @@ class _ResetPasswordscreenState extends State<ResetPasswordscreen> {
   void _submitEmail() {
     String email = _emailController.text.trim();
     if (_isEmailValid) {
-      // ✅ Email is valid — do something (e.g., send code)
+      // Email is valid — do something (e.g., send code)
       print("Sending verification to $email");
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Verification code sent to $email")),
+        SnackBar(
+          content: Text("Verification code sent to $email"),
+          backgroundColor: Colors.green,
+          elevation: 6,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          behavior: SnackBarBehavior.floating,
+          duration: Duration(seconds: 3),
+        ),
       );
     } else {
-      // ❌ Invalid email — show message
+      //  Invalid email — show message
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Please enter a valid email address")),
+        SnackBar(
+          content: Text("Please enter a valid email address"),
+          backgroundColor: Colors.red,
+          elevation: 6,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          behavior: SnackBarBehavior.floating,
+          duration: Duration(seconds: 3),
+        ),
       );
     }
   }
@@ -224,10 +243,7 @@ class _ResetPasswordscreenState extends State<ResetPasswordscreen> {
                   child: Column(
                     children: [
                       SizedBox(height: 24),
-                      Image.asset(
-                        'assets/images/reset.png',
-                        height: 300,
-                      ),
+                      Image.asset('assets/images/reset.png', height: 300),
                       SizedBox(height: 50),
                       Text(
                         "Reset Your Password",
@@ -241,10 +257,7 @@ class _ResetPasswordscreenState extends State<ResetPasswordscreen> {
                       Text(
                         "Enter your email address below\nand we’ll send you a link with instructions",
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.grey[600],
-                        ),
+                        style: TextStyle(fontSize: 15, color: Colors.grey[600]),
                       ),
                       SizedBox(height: 32),
                       Align(
@@ -264,14 +277,51 @@ class _ResetPasswordscreenState extends State<ResetPasswordscreen> {
                           color: Colors.grey[100],
                           borderRadius: BorderRadius.circular(16),
                         ),
-                        child: TextField(
-                          controller: _emailController,
-                          keyboardType: TextInputType.emailAddress,
-                          decoration: InputDecoration(
-                            hintText: 'Enter Email Address',
-                            border: InputBorder.none,
-                            prefixIcon: Icon(Icons.email_outlined, color: Colors.green),
-                            contentPadding: EdgeInsets.all(16),
+                        // child: TextField(
+                        //   controller: _emailController,
+                        //   keyboardType: TextInputType.emailAddress,
+                        //   decoration: InputDecoration(
+                        //     hintText: 'Enter Email Address',
+                        //     border: InputBorder.none,
+                        //     prefixIcon: Icon(
+                        //       Icons.email_outlined,
+                        //       color: Colors.green,
+                        //     ),
+                        //     contentPadding: EdgeInsets.all(16),
+                        //   ),
+                        // ),
+                        child: Form(
+                          key: _formKey,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.grey[100],
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: TextFormField(
+                              controller: _emailController,
+                              keyboardType: TextInputType.emailAddress,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Please enter your email address";
+                                }
+                                final emailRegex = RegExp(
+                                  r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                                );
+                                if (!emailRegex.hasMatch(value)) {
+                                  return "Enter a valid email";
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                hintText: 'Enter Email Address',
+                                border: InputBorder.none,
+                                prefixIcon: Icon(
+                                  Icons.email_outlined,
+                                  color: Colors.green,
+                                ),
+                                contentPadding: EdgeInsets.all(16),
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -281,7 +331,13 @@ class _ResetPasswordscreenState extends State<ResetPasswordscreen> {
                         width: double.infinity,
                         height: 55,
                         child: ElevatedButton(
-                          onPressed: _submitEmail,
+                          onPressed: () {
+                            _submitEmail();
+                            if (_formKey.currentState!.validate()) {
+                              _emailController.clear();
+                              Navigator.pushNamed(context, '/otpVerficationResetpassword');
+                            }
+                          },
                           child: Text(
                             "Send Verification Code",
                             style: TextStyle(
