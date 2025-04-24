@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
+import 'StatisticsScreen.dart';
+import 'ExplorePage.dart';
+import 'SolarconnScreen.dart';
+import 'HomeScreen.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
-  MyApp({super.key});
-  State<MyApp> createState() => _MyAppState();
-}
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
-class _MyAppState extends State<MyApp> {
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Text("tess^11"),
+      // home: const ExplorePage(),
+      home: const StatisticsScreen(),
+      // home: const SolarconnScreen(),
+      // home: const HomeScreen(),
     );
   }
 }
