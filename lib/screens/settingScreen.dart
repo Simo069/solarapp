@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:solarapp/component/CustomBottomNavBar.dart';
 import 'package:solarapp/components/bottomNavBar.dart';
 
 class settingScreen extends StatefulWidget {
@@ -69,7 +70,9 @@ class _settingScreenState extends State<settingScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: bottomNavBar(currentIndex: 4,),
+      bottomNavigationBar: CustomBottomNavBar(
+        selectedIndex: 4,
+      ),
     );
   }
   Widget buildSettingItem({

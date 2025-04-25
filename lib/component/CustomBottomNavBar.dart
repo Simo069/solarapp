@@ -1,18 +1,14 @@
+
+
 import 'package:flutter/material.dart';
 
-class bottomNavBar extends StatefulWidget {
-  final int currentIndex;
-  // final ValueChanged<int> onTap;
-  // bottomNavBar({super.key, required this.currentIndex, required this.onTap});
-    bottomNavBar({super.key, required this.currentIndex});
+class CustomBottomNavBar extends StatelessWidget {
+  final int selectedIndex;
+
+  const CustomBottomNavBar({Key? key, required this.selectedIndex})
+    : super(key: key);
 
   @override
-  State<bottomNavBar> createState() => _bottomNavBarState();
-}
-
-class _bottomNavBarState extends State<bottomNavBar> {
-  @override
-  
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 12),
@@ -30,22 +26,14 @@ class _bottomNavBarState extends State<bottomNavBar> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: List.generate(_icons.length, (index) {
-          return _bottomNavItem(_icons[index], index);
+          return _buildNavItem( context,_icons[index], index, _routes[index]);
         }),
       ),
     );
   }
 
-  final List<IconData> _icons = [
-    Icons.home,
-    Icons.bar_chart,
-    Icons.credit_card,
-    Icons.notifications_none,
-    Icons.settings,
-  ];
-
-  Widget _bottomNavItem(IconData icon, int index) {
-    final bool isSelected = widget.currentIndex == index;
+  Widget _buildNavItem( BuildContext context,IconData icon, int index, String routeName) {
+    final bool isSelected = selectedIndex == index;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
@@ -60,13 +48,28 @@ class _bottomNavBarState extends State<bottomNavBar> {
           size: isSelected ? 28 : 24,
         ),
         onPressed: () {
-          // widget.onTap(index);
-          // setState:
-          // () {
-          //   widget.onTap(index);
-          // };
+          Navigator.pushNamedAndRemoveUntil(context, routeName, (route) => false,);
+          // Navigator.pushReplacementNamed(context, routeName).then((_) {
+          //   // Optionally, you can add any action after navigating back
+          // });
+
         },
       ),
     );
   }
+
+  static const List<IconData> _icons = [
+    Icons.home,
+    Icons.bar_chart,
+    Icons.credit_card,
+    Icons.notifications_none,
+    Icons.settings,
+  ];
+  static const List<String> _routes = [
+    '/dashboard',
+    '/StatisticsScreen',
+    '/ExplorePage',
+    '/Notificationscreen',
+    '/settingScreen',
+  ];
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:solarapp/component/CustomBottomNavBar.dart';
 import 'package:solarapp/components/bottomNavBar.dart';
 
 class Notificationscreen extends StatefulWidget {
@@ -56,7 +57,7 @@ class _NotificationscreenState extends State<Notificationscreen> {
       ),
 
 
-      bottomNavigationBar: bottomNavBar(currentIndex: 4,),
+      bottomNavigationBar: CustomBottomNavBar(selectedIndex: 3,),
     );
   }
 }

@@ -1,6 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:solarapp/screens/ExplorePage.dart';
+import 'package:solarapp/screens/HomeScreen.dart';
+import 'package:solarapp/screens/SolarDetailsScreen.dart';
+import 'package:solarapp/screens/SolarconnScreen.dart';
+import 'package:solarapp/screens/StatisticsScreen.dart';
 import 'package:solarapp/screens/auth/AccountScreen.dart';
 import 'package:solarapp/screens/InstallerMapScreen.dart';
 import 'package:solarapp/screens/InstallerProfileScreen.dart';
@@ -15,7 +20,7 @@ import 'package:solarapp/screens/auth/otpVerficationResetpassword.dart';
 import 'package:solarapp/screens/editProfile.dart';
 import 'package:solarapp/screens/settingScreen.dart';
 import 'package:solarapp/services/fireAuth/UserProvider.dart';
-import 'package:solarapp/solardashboard.dart';
+import 'package:solarapp/screens/solardashboard.dart';
 import 'package:solarapp/screens/auth/OTPVerificationScreen.dart';
 
 
@@ -71,8 +76,16 @@ class _MyAppState extends State<MyApp> {
       // home:createAccountInfo(),
       // home: OTPVerificationScreen(),
       // home:ResetPasswordscreen(),
-      initialRoute: '/loginScreen',
+
+      initialRoute: '/',
       routes:{
+        '/': (context) => const HomeScreen(),
+        '/ExplorePage': (context) => const ExplorePage(),
+        '/StatisticsScreen': (context) => const StatisticsScreen(),
+        '/SolarconnScreen': (context) => const SolarconnScreen(),
+        '/SolarDetailsScreen': (context) => const SolarDetailsScreen(),
+        
+
         '/loginScreen': (context) => loginScreen(),
         '/dashboard': (context) => solardashboard(),
         '/InstallerProfileScreen': (context) => InstallerProfileScreen(),
@@ -82,7 +95,7 @@ class _MyAppState extends State<MyApp> {
         '/editProfile': (context) => editProfile(),
         '/Notificationscreen': (context) => Notificationscreen(),
         
-        // '/loginScreen': (context) => loginScreen(),
+  
         '/loginSuccessScreen': (context) => loginSuccessScreen(),
         '/createAccount': (context) => createAccount(),
         '/createAccountInfo': (context) => createAccountInfo(),
@@ -91,6 +104,12 @@ class _MyAppState extends State<MyApp> {
         '/otpVerficationResetpassword' : (context) => otpVerficationResetpassword(),
         '/Newpassword': (context) => Newpassword(),
       },
+
+      // home: const ExplorePage(),
+      // home: const StatisticsScreen(),
+      // home: const SolarconnScreen(),
+      // home: HomeScreen(),
+      // home: const SolarDetailsScreen(),
 
       
     );

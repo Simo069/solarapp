@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:intl/intl.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:solarapp/component/CustomBottomNavBar.dart';
 import 'package:solarapp/components/bottomNavBar.dart';
 
 class solardashboard extends StatefulWidget {
@@ -117,7 +118,7 @@ class _solardashboardState extends State<solardashboard> {
           ),
         ),
       ),
-      bottomNavigationBar:_buildBottomNavBar(),
+      bottomNavigationBar: CustomBottomNavBar(selectedIndex: _selectedIndex,),
     );
   
     
@@ -135,7 +136,7 @@ class _solardashboardState extends State<solardashboard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'Hi Malak',
+                'Hi omar',
                 style: TextStyle(
                   fontSize: 26,
                   fontWeight: FontWeight.bold,
@@ -679,56 +680,60 @@ class _solardashboardState extends State<solardashboard> {
     );
   }
 
-  Widget _buildBottomNavBar() {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 12),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(40),
 
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.green.withOpacity(0.3),
-            blurRadius: 5,
-            offset: Offset(0, -17),
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          _bottomNavItem(Icons.home, 0),
-          _bottomNavItem(Icons.bar_chart, 1),
-          _bottomNavItem(Icons.credit_card, 2),
-          _bottomNavItem(Icons.notifications_none, 3),
-          _bottomNavItem(Icons.settings, 4),
-        ],
-      ),
-    );
-  }
 
-  Widget _bottomNavItem(IconData icon, int index) {
-    final bool isSelected = _selectedIndex == index;
 
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(
-        color: isSelected ? Colors.green[700] : Colors.transparent,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: IconButton(
-        icon: Icon(
-          icon,
-          color: isSelected ? Colors.white : Colors.grey[500],
-          size: isSelected ? 28 : 24,
-        ),
-        onPressed: () {
-          setState(() {
-            _selectedIndex = index;
-          });
-          // Optionally, add navigation logic here
-        },
-      ),
-    );
-  }
+  // Widget _buildBottomNavBar() {
+  //   return Container(
+  //     padding: EdgeInsets.symmetric(vertical: 12),
+  //     decoration: BoxDecoration(
+  //       borderRadius: BorderRadius.circular(40),
+
+  //       color: Colors.white,
+  //       boxShadow: [
+  //         BoxShadow(
+  //           color: Colors.green.withOpacity(0.3),
+  //           blurRadius: 5,
+  //           offset: Offset(0, -17),
+  //         ),
+  //       ],
+  //     ),
+  //     child: Row(
+  //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //       children: [
+  //         _bottomNavItem(Icons.home, 0),
+  //         _bottomNavItem(Icons.bar_chart, 1),
+  //         _bottomNavItem(Icons.credit_card, 2),
+  //         _bottomNavItem(Icons.notifications_none, 3),
+  //         _bottomNavItem(Icons.settings, 4),
+  //       ],
+  //     ),
+  //   );
+  // }
+
+  // Widget _bottomNavItem(IconData icon, int index) {
+
+  //   final bool isSelected = _selectedIndex == index;
+
+  //   return Container(
+  //     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+  //     decoration: BoxDecoration(
+  //       color: isSelected ? Colors.green[700] : Colors.transparent,
+  //       borderRadius: BorderRadius.circular(16),
+  //     ),
+  //     child: IconButton(
+  //       icon: Icon(
+  //         icon,
+  //         color: isSelected ? Colors.white : Colors.grey[500],
+  //         size: isSelected ? 28 : 24,
+  //       ),
+  //       onPressed: () {
+  //         setState(() {
+  //           _selectedIndex = index;
+  //         });
+  //         // Optionally, add navigation logic here
+  //       },
+  //     ),
+  //   );
+  // }
 }

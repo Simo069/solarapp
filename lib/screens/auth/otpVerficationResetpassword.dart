@@ -108,6 +108,16 @@ class _otpVerficationResetpasswordState
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  Container(
+                    alignment: Alignment.topLeft,
+                    child: IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(Icons.arrow_back_ios_new, color: Colors.black),
+                    ),
+                  ),
+                  SizedBox(width: 8),
                   Image(
                     image: AssetImage('assets/images/otpconfirm.jpeg'),
                     height: 350,
@@ -155,9 +165,9 @@ class _otpVerficationResetpasswordState
                         if (value.length != 5) {
                           return 'Code must be 5 digits';
                         }
-                        if (value != '12345') {
-                          return 'Invalid verification code';
-                        }
+                        // if (value != '12345') {
+                        //   return 'Invalid verification code';
+                        // }
                         return null;
                       },
                     ),
