@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:solarapp/component/CustomBottomNavBar.dart';
 import 'package:solarapp/components/bottomNavBar.dart';
+import 'package:solarapp/screens/auth/createAccount.dart';
 
 class settingScreen extends StatefulWidget {
   settingScreen({super.key});
@@ -28,12 +29,12 @@ class _settingScreenState extends State<settingScreen> {
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 24),
         children: [
-        SizedBox(height: 10,),
-        buildSettingItem(
+          SizedBox(height: 10),
+          buildSettingItem(
             icon: Icons.person_outline,
             title: "Account",
             onTap: () {
-              // Navigate to Account page
+              Navigator.pushNamed(context, '/AccountScreen');
             },
           ),
           buildSettingItem(
@@ -70,11 +71,10 @@ class _settingScreenState extends State<settingScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: CustomBottomNavBar(
-        selectedIndex: 4,
-      ),
+      bottomNavigationBar: CustomBottomNavBar(selectedIndex: 4),
     );
   }
+
   Widget buildSettingItem({
     required IconData icon,
     required String title,
@@ -83,12 +83,16 @@ class _settingScreenState extends State<settingScreen> {
     return Column(
       children: [
         ListTile(
-          leading: Icon(icon, color: Colors.grey[800] ,),
+          leading: Icon(icon, color: Colors.grey[800]),
           title: Text(
             title,
-            style:  TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
           ),
-          trailing: Icon(Icons.arrow_forward_ios_rounded, size: 16 , color: Colors.grey[800]),
+          trailing: Icon(
+            Icons.arrow_forward_ios_rounded,
+            size: 16,
+            color: Colors.grey[800],
+          ),
           onTap: onTap,
           contentPadding: const EdgeInsets.symmetric(vertical: 4),
         ),

@@ -1,67 +1,78 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:solarapp/component/CustomBottomNavBar.dart';
+
+import 'package:solarapp/services/fireAuth/UserProvider.dart';
+
+import 'package:solarapp/Models/UserModel.dart';
 
 class AccountScreen extends StatefulWidget {
   AccountScreen({super.key});
   State<AccountScreen> createState() => _AccountScreenState();
 }
 
+
+
 class _AccountScreenState extends State<AccountScreen> {
   int _selectedIndex = 4;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // appBar: AppBar(
-      //   leading: const BackButton(color: Colors.black),
-      //   title: const Text(
-      //     'Account',
-      //     style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-      //   ),
-      //   backgroundColor: Colors.white,
-      //   elevation: 0,
+    final user = Provider.of<UserProvider>(context).user;
+    int _selectedIndex = 4;
 
-      // ),
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Text(
-            '<',
-            style: TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.w600,
-              color: Colors.black,
-            ),
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        title: const Text(
-          'Account',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-      ),
+    int calculateAge(DateTime? birthDate) {
+      if (birthDate == null) return 0; // check if null first
+
+      DateTime today = DateTime.now();
+      int age = today.year - birthDate.year;
+
+      if (today.month < birthDate.month ||
+          (today.month == birthDate.month && today.day < birthDate.day)) {
+        age--;
+      }
+
+      return age;
+    }
+
+    int age = calculateAge(user?.dateOfBirth);
+    return Scaffold(
+      backgroundColor: Colors.white,
 
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
+              SizedBox(height: 16),
+              Container(
+                alignment: Alignment.topLeft,
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(
+                    Icons.arrow_back_ios_new_sharp,
+                    color: Colors.black,
+                    size: 28,
+                  ),
+                ),
+              ),
+              SizedBox(height: 8),
               // Account Details Title
-              _buildProfile(),
-              const SizedBox(height: 16),
+              _buildProfile(user , age),
+              SizedBox(height: 16),
               _buildDetails(),
             ],
           ),
         ),
       ),
-      bottomNavigationBar: _buildBottomNavBar(),
+      bottomNavigationBar: CustomBottomNavBar(selectedIndex: 4,),
     );
   }
 
-  Widget _buildProfile() {
+  Widget _buildProfile(UserModel? user , int age) {
     return Container(
-      margin: const EdgeInsets.all(16),
-      padding: const EdgeInsets.all(12),
+      margin: EdgeInsets.all(16),
+      padding: EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.green[800],
         borderRadius: BorderRadius.circular(20),
@@ -81,11 +92,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       width: 100,
                       height: 100,
                       color: Colors.grey.shade300,
-                      child: const Icon(
-                        Icons.person,
-                        size: 50,
-                        color: Colors.grey,
-                      ),
+                      child: Icon(Icons.person, size: 50, color: Colors.grey),
                     );
                   },
                 ),
@@ -94,27 +101,23 @@ class _AccountScreenState extends State<AccountScreen> {
                 bottom: 0,
                 right: 0,
                 child: Container(
-                  padding: const EdgeInsets.all(4),
-                  decoration: const BoxDecoration(
+                  padding: EdgeInsets.all(4),
+                  decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: Colors.white,
                   ),
-                  child: const Icon(
-                    Icons.camera_alt,
-                    size: 16,
-                    color: Colors.green,
-                  ),
+                  child: Icon(Icons.camera_alt, size: 16, color: Colors.green),
                 ),
               ),
             ],
           ),
-          const SizedBox(width: 16),
+          SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Text(
-                  'Omar Badale',
+                  ' ${user?.firstName} ${user?.lastName} ',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
@@ -123,11 +126,11 @@ class _AccountScreenState extends State<AccountScreen> {
                 ),
                 SizedBox(height: 4),
                 Text(
-                  'Gender - male',
+                  'Gender - ${user?.gender} ',
                   style: TextStyle(color: Colors.white, fontSize: 14),
                 ),
                 Text(
-                  'Age - 66 year',
+                  'Age - ${age}',
                   style: TextStyle(color: Colors.white, fontSize: 14),
                 ),
               ],
@@ -155,32 +158,33 @@ class _AccountScreenState extends State<AccountScreen> {
             ),
           ),
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12),
 
         // Account Options
-        _buildListTile(Icons.person_outline, 'General info'),
-        _buildListTile(Icons.lock_outline, 'Password'),
-        _buildListTile(Icons.mail_outline, 'Contact info'),
+        _buildListTile(Icons.person_outline, 'General info', '/editProfile'),
+        _buildListTile(Icons.lock_outline, 'Password', '/Newpassword'),
+        // _buildListTile(Icons.mail_outline, 'Contact info',),
       ],
     );
   }
 
-  Widget _buildListTile(IconData icon, String title) {
+  Widget _buildListTile(IconData icon, String title, String link) {
     return Column(
       children: [
         ListTile(
           leading: Icon(icon, color: Colors.black54),
-          title: Text(title, style: const TextStyle(color: Colors.black87)),
-          trailing: const Icon(
+          title: Text(title, style: TextStyle(color: Colors.black87)),
+          trailing: Icon(
             Icons.arrow_forward_ios,
             size: 16,
             color: Colors.black45,
           ),
           onTap: () {
             print('Tapped on $title');
+            Navigator.pushNamed(context, link);
           },
         ),
-        const Divider(height: 1),
+        Divider(height: 1),
       ],
     );
   }
@@ -217,7 +221,7 @@ class _AccountScreenState extends State<AccountScreen> {
     final bool isSelected = _selectedIndex == index;
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
         color: isSelected ? Colors.green[700] : Colors.transparent,
         borderRadius: BorderRadius.circular(16),

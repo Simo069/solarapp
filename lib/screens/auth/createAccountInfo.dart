@@ -22,6 +22,9 @@ class _createAccountinfoState extends State<createAccountInfo> {
   TextEditingController _passwordConfirmController = TextEditingController();
   TextEditingController _phoneController = TextEditingController();
 
+  String? _selectedGender;
+  DateTime? _selectedDateOfBirth;
+
   final EmailOTP myAuth = EmailOTP();
 
   void initState() {
@@ -49,7 +52,6 @@ class _createAccountinfoState extends State<createAccountInfo> {
     );
 
     bool result = await myAuth.sendOTP();
-    
 
     if (result) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -65,25 +67,26 @@ class _createAccountinfoState extends State<createAccountInfo> {
         ),
       );
       setState(() {
-      _isLoading = false;
-    });
-    Future.delayed(Duration(seconds: 2), () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder:
-              (context) => OTPVerificationScreen(
-                firstname: _firstNameController.text.trim(),
-                lastname: _lastNameController.text.trim(),
-                email: widget.email,
-                phone: _phoneController.text.trim(),
-                password: _passwordController.text.trim(),
-                myAuth: myAuth,
-              ),
-        ),
-      );
-    });
-      
+        _isLoading = false;
+      });
+      Future.delayed(Duration(seconds: 2), () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder:
+                (context) => OTPVerificationScreen(
+                  firstname: _firstNameController.text.trim(),
+                  lastname: _lastNameController.text.trim(),
+                  email: widget.email,
+                  phone: _phoneController.text.trim(),
+                  password: _passwordController.text.trim(),
+                  gender: _selectedGender!,
+                  dateOfBirth: _selectedDateOfBirth!,
+                  myAuth: myAuth,
+                ),
+          ),
+        );
+      });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -213,6 +216,116 @@ class _createAccountinfoState extends State<createAccountInfo> {
                               return null;
                             },
                           ),
+
+                          SizedBox(height: 16),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            
+                            children: [
+                              
+                              Text(
+                                "Gender",
+                                style: TextStyle(
+                                  color: Colors.grey[800],
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 20,
+                                ),
+                              ),
+                              SizedBox(height: 12,),
+                              DropdownButtonFormField<String>(
+                                value: _selectedGender,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    _selectedGender = newValue;
+                                  });
+                                },
+                                decoration: InputDecoration(
+                                  // labelText: "Gender",
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  filled: true,
+                                  fillColor: Colors.grey[100],
+                                  prefixIcon: Icon(
+                                    Icons.person,
+                                    color: Colors.green,
+                                  ),
+                                ),
+                                validator:
+                                    (value) =>
+                                        value == null
+                                            ? 'Please select your gender'
+                                            : null,
+                                items:
+                                    ['Male', 'Female'].map((gender) {
+                                      return DropdownMenuItem<String>(
+                                        value: gender,
+                                        child: Text(gender),
+                                      );
+                                    }).toList(),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 16),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              
+                              Text(
+                                "Date of Birth",
+                                style: TextStyle(
+                                  color: Colors.grey[800],
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 20,
+                                ),
+                              ),
+                              SizedBox(height: 12,),
+                              GestureDetector(
+                                onTap: () async {
+                                  final DateTime? picked = await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime(
+                                      2000,
+                                    ), // default starting date
+                                    firstDate: DateTime(1900),
+                                    lastDate: DateTime.now(),
+                                  );
+                                  if (picked != null) {
+                                    setState(() {
+                                      _selectedDateOfBirth = picked;
+                                    });
+                                  }
+                                },
+                                child: AbsorbPointer(
+                                  child: TextFormField(
+                                    decoration: InputDecoration(
+                                      labelText:
+                                          _selectedDateOfBirth == null
+                                              ? 'Date of Birth'
+                                              : '${_selectedDateOfBirth!.toLocal().toString().split(' ')[0]}',
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide.none
+                                      ),
+                                      filled: true,
+                                      fillColor: Colors.grey[100],
+                                      prefixIcon: Icon(
+                                        Icons.calendar_today,
+                                        color: Colors.green,
+                                      ),
+                                    ),
+                                    validator: (value) {
+                                      if (_selectedDateOfBirth == null) {
+                                        return 'Please select your date of birth';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                           SizedBox(height: 16),
                           _buildTextField(
                             label: "Enter your password",
@@ -260,6 +373,7 @@ class _createAccountinfoState extends State<createAccountInfo> {
                             },
                           ),
                           SizedBox(height: 32),
+
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
@@ -311,7 +425,7 @@ class _createAccountinfoState extends State<createAccountInfo> {
                                     );
 
                                     print("email: ${widget.email}");
-                                    
+
                                     setState(() {
                                       _isLoading = true;
                                     });
@@ -319,7 +433,7 @@ class _createAccountinfoState extends State<createAccountInfo> {
                                     _sendOTP();
                                   } else {
                                     debugPrint("testst 222");
-                                  
+
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text(

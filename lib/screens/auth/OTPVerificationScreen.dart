@@ -12,6 +12,8 @@ class OTPVerificationScreen extends StatefulWidget {
   late final String? firstname;
   late final String? lastname;
   late final EmailOTP? myAuth;
+  late final String? gender;
+  late final DateTime? dateOfBirth;
   OTPVerificationScreen({
     Key? key,
     this.firstname,
@@ -20,6 +22,8 @@ class OTPVerificationScreen extends StatefulWidget {
     this.phone,
     this.password,
     this.myAuth,
+    this.gender,
+    this.dateOfBirth
   }) : super(key: key);
 
   @override
@@ -84,9 +88,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
           _isLoading = true;
         });
         await registerUser(context);
-        setState(() {
-          _isLoading = false;
-        });
+      
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -109,6 +111,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
       //   '/loginScreen',
       //   (route) => false,
       // );
+
     }
   }
 
@@ -140,6 +143,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
           behavior: SnackBarBehavior.floating,
           elevation: 6,
           duration: Duration(seconds: 3),
+          
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
@@ -164,6 +168,8 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
         firstname: widget.firstname!,
         lastname: widget.lastname!,
         phone: widget.phone!,
+        gender:widget.gender!,
+        dateOfBirth: widget.dateOfBirth!,
       );
 
       if (result == "account created") {
@@ -187,23 +193,27 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
             (route) => false,
           );
         });
+         setState(() {
+          _isLoading = false;
+        });
       } else if (result == "This email is already in use.") {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text("This email is already in use."),
             backgroundColor: Colors.orange,
             margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+
           ),
         );
-
-        // Redirection vers la page de création d'infos supplémentaires
-        Future.delayed(Duration(seconds: 4), () {
-          Navigator.pushNamedAndRemoveUntil(
-            context,
-            '/loginScreen',
-            (route) => false,
-          );
+        setState(() {
+          _isLoading = false;
         });
+
+      
       } else {
         // Pour les autres erreurs : mot de passe faible, email invalide...
         ScaffoldMessenger.of(context).showSnackBar(
@@ -226,6 +236,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
         SnackBar(
           content: Text("Unexpected error occurred"),
           backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
         ),
       );
     }
@@ -356,6 +367,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(16),
                                 ),
+                                
                               ),
                               onPressed: () {
                                 _verifyOTP();

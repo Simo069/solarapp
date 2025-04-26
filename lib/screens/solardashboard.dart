@@ -3,8 +3,13 @@ import 'dart:async';
 import 'dart:math';
 import 'package:intl/intl.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:provider/provider.dart';
+import 'package:solarapp/Models/UserModel.dart';
 import 'package:solarapp/component/CustomBottomNavBar.dart';
 import 'package:solarapp/components/bottomNavBar.dart';
+import 'package:solarapp/services/fireAuth/UserProvider.dart';
+
+
 
 class solardashboard extends StatefulWidget {
   solardashboard({super.key});
@@ -14,9 +19,16 @@ class solardashboard extends StatefulWidget {
 }
 
 class _solardashboardState extends State<solardashboard> {
+ 
+
+
+
   int _selectedIndex = 0;
   final today = DateTime.now();
   final formattedDate = DateFormat('EEEE d, yyyy').format(DateTime.now());
+
+
+
   double solarPowerUsage = 30.276;
   int usagePercentage = 50;
   double totalEnergy = 36.2;
@@ -95,6 +107,8 @@ class _solardashboardState extends State<solardashboard> {
   }
 
   Widget build(BuildContext context) {
+    final user = Provider.of<UserProvider>(context).user;
+    
     final today = DateTime.now();
     final formattedDate = DateFormat('EEEE d, yyyy').format(today);
     return Scaffold(
@@ -105,7 +119,7 @@ class _solardashboardState extends State<solardashboard> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              _buildfirstsection(),
+              _buildfirstsection(user),
               // start second section of solar powwer usage
               SizedBox(height: 20),
               _buildsecondsection(),
@@ -125,9 +139,9 @@ class _solardashboardState extends State<solardashboard> {
 
   }
 
-  Widget _buildfirstsection() {
+  Widget _buildfirstsection(UserModel? user) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding:  EdgeInsets.all(16.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -135,8 +149,8 @@ class _solardashboardState extends State<solardashboard> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Hi omar',
+              Text(
+              '${user?.firstName?? 'Guest'}',
                 style: TextStyle(
                   fontSize: 26,
                   fontWeight: FontWeight.bold,
@@ -162,7 +176,7 @@ class _solardashboardState extends State<solardashboard> {
                 },
                 activeColor: Colors.green,
               ),
-              const SizedBox(width: 8),
+              SizedBox(width: 8),
               Text(
                 'Switch to main electricity',
                 style: TextStyle(color: Colors.grey[600], fontSize: 14),
@@ -176,13 +190,13 @@ class _solardashboardState extends State<solardashboard> {
 
   Widget _buildsecondsection() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding:  EdgeInsets.symmetric(horizontal: 16.0),
       child: Card(
         elevation: 4, // Shadow for card effect
         color: Colors.white, // Background color
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding:  EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -191,7 +205,7 @@ class _solardashboardState extends State<solardashboard> {
                 children: [
                   // Solar icon with dynamic border color
                   Container(
-                    padding: const EdgeInsets.all(8),
+                    padding:  EdgeInsets.all(8),
                     decoration: BoxDecoration(
                       border: Border.all(
                         color:
@@ -680,60 +694,5 @@ class _solardashboardState extends State<solardashboard> {
     );
   }
 
-
-
-
-  // Widget _buildBottomNavBar() {
-  //   return Container(
-  //     padding: EdgeInsets.symmetric(vertical: 12),
-  //     decoration: BoxDecoration(
-  //       borderRadius: BorderRadius.circular(40),
-
-  //       color: Colors.white,
-  //       boxShadow: [
-  //         BoxShadow(
-  //           color: Colors.green.withOpacity(0.3),
-  //           blurRadius: 5,
-  //           offset: Offset(0, -17),
-  //         ),
-  //       ],
-  //     ),
-  //     child: Row(
-  //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //       children: [
-  //         _bottomNavItem(Icons.home, 0),
-  //         _bottomNavItem(Icons.bar_chart, 1),
-  //         _bottomNavItem(Icons.credit_card, 2),
-  //         _bottomNavItem(Icons.notifications_none, 3),
-  //         _bottomNavItem(Icons.settings, 4),
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  // Widget _bottomNavItem(IconData icon, int index) {
-
-  //   final bool isSelected = _selectedIndex == index;
-
-  //   return Container(
-  //     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-  //     decoration: BoxDecoration(
-  //       color: isSelected ? Colors.green[700] : Colors.transparent,
-  //       borderRadius: BorderRadius.circular(16),
-  //     ),
-  //     child: IconButton(
-  //       icon: Icon(
-  //         icon,
-  //         color: isSelected ? Colors.white : Colors.grey[500],
-  //         size: isSelected ? 28 : 24,
-  //       ),
-  //       onPressed: () {
-  //         setState(() {
-  //           _selectedIndex = index;
-  //         });
-  //         // Optionally, add navigation logic here
-  //       },
-  //     ),
-  //   );
-  // }
+  
 }

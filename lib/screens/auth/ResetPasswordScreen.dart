@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:solarapp/screens/auth/OTPVerificationScreen.dart';
 import 'package:email_otp/email_otp.dart';
 import 'package:solarapp/screens/auth/otpVerficationResetpassword.dart';
+import 'package:solarapp/services/fireAuth/firebaseAuthServices.dart';
 
 class ResetPasswordscreen extends StatefulWidget {
   const ResetPasswordscreen({super.key});
@@ -17,6 +18,8 @@ class _ResetPasswordscreenState extends State<ResetPasswordscreen> {
   bool _isEmailValid = false;
 
   bool _isLoading = false;
+
+  final authService = Firebaseauthservices();
 
   final EmailOTP myAuth = EmailOTP();
 
@@ -42,23 +45,37 @@ class _ResetPasswordscreenState extends State<ResetPasswordscreen> {
     });
   }
 
-  void _submitEmail() {
+  void _submitEmail() async {
     String email = _emailController.text.trim();
     if (_isEmailValid) {
-      // Email is valid — do something (e.g., send code)
-      print("Sending verification to $email");
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Verification code sent to $email"),
-          backgroundColor: Colors.green,
-          elevation: 6,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          behavior: SnackBarBehavior.floating,
-          duration: Duration(seconds: 3),
-        ),
+      setState(() {
+        _isLoading = true;
+      });
+      bool exist = await authService.checkEmailExists(
+        _emailController.text.trim(),
       );
+      if (exist) {
+        // Email exists, proceed with sending OTP
+        _sendOTP();
+      } else {
+        // Email does not exist, show error message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Email does not exist please try with another one"),
+            backgroundColor: Colors.red,
+            elevation: 6,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            behavior: SnackBarBehavior.floating,
+            duration: Duration(seconds: 3),
+          ),
+        );
+        setState(() {
+          _isLoading = false;
+        });
+        return;
+      }
     } else {
       //  Invalid email — show message
       ScaffoldMessenger.of(context).showSnackBar(
@@ -100,17 +117,16 @@ class _ResetPasswordscreenState extends State<ResetPasswordscreen> {
           behavior: SnackBarBehavior.floating,
         ),
       );
-      
-       await Future.delayed(Duration(seconds: 5), () {
+
+      await Future.delayed(Duration(seconds: 1), () {
         Navigator.push(
           context,
           MaterialPageRoute(
             builder:
-                // (context) => OTPVerificationScreen(
-                //   email: _emailController,
-                //   myAuth: myAuth,
-                // ),
-                (context) => otpVerficationResetpassword(),
+                (context) => otpVerficationResetpassword(
+                  myAuth: myAuth,
+                  email: _emailController.text.trim(),
+                ),
           ),
         );
       });
@@ -210,38 +226,70 @@ class _ResetPasswordscreenState extends State<ResetPasswordscreen> {
                                   borderRadius: BorderRadius.circular(16),
                                 ),
 
+                                
                                 child: Form(
                                   key: _formKey,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey[100],
-                                      borderRadius: BorderRadius.circular(16),
-                                    ),
-                                    child: TextFormField(
-                                      controller: _emailController,
-                                      keyboardType: TextInputType.emailAddress,
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return "Please enter your email address";
-                                        }
-                                        final emailRegex = RegExp(
-                                          r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-                                        );
-                                        if (!emailRegex.hasMatch(value)) {
-                                          return "Enter a valid email";
-                                        }
-                                        return null;
-                                      },
-                                      decoration: InputDecoration(
-                                        hintText: 'Enter Email Address',
-                                        border: InputBorder.none,
-                                        prefixIcon: Icon(
-                                          Icons.email_outlined,
-                                          color: Colors.green,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      // Email TextField with Icon
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey[100],
+                                          borderRadius: BorderRadius.circular(
+                                            16,
+                                          ),
                                         ),
-                                        contentPadding: EdgeInsets.all(16),
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              child: TextFormField(
+                                                controller: _emailController,
+                                                keyboardType:
+                                                    TextInputType.emailAddress,
+                                                validator: (value) {
+                                                  if (value == null ||
+                                                      value.isEmpty) {
+                                                    return "Please enter your email address";
+                                                  }
+                                                  final emailRegex = RegExp(
+                                                    r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                                                  );
+                                                  if (!emailRegex.hasMatch(
+                                                    value,
+                                                  )) {
+                                                    return "Enter a valid email";
+                                                  }
+                                                  return null;
+                                                },
+                                                decoration: InputDecoration(
+                                                  hintText:
+                                                      'Enter Email Address',
+                                                  border: InputBorder.none,
+                                                  prefixIcon: Icon(
+                                                    Icons.email_outlined,
+                                                    color: Colors.green,
+                                                  ),
+                                                  contentPadding:
+                                                      EdgeInsets.all(16),
+                                                ),
+                                              ),
+                                            ),
+                                            if (_isEmailValid)
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                  right: 16,
+                                                ),
+                                                child: Icon(
+                                                  Icons.check_circle,
+                                                  color: Colors.green,
+                                                ),
+                                              ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
+                                    ],
                                   ),
                                 ),
                               ),
@@ -260,11 +308,6 @@ class _ResetPasswordscreenState extends State<ResetPasswordscreen> {
                                     //     '/otpVerficationResetpassword',
                                     //   );
                                     // }
-                                    setState(() {
-                                      _isLoading = true;
-                                    });
-                                    _sendOTP();
-                                    
                                   },
                                   child: Text(
                                     "Send Verification Code",

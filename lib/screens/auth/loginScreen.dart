@@ -316,10 +316,10 @@ class _loginScreenState extends State<loginScreen> {
         userProvider.setUser(userModel);
         Navigator.pushReplacementNamed(context, '/loginSuccessScreen');
         if (_keepSignedIn) {
-          // You can store user data using SharedPreferences here if needed
+          
         }
 
-        // Navigator.pushReplacementNamed(context, '/dashboard');
+        
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(

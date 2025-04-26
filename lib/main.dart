@@ -101,7 +101,7 @@ class _MyAppState extends State<MyApp> {
         '/createAccountInfo': (context) => createAccountInfo(),
         '/OTPVerificationScreen': (context) => OTPVerificationScreen(),
         '/ResetPasswordscreen': (context) => ResetPasswordscreen(),
-        '/otpVerficationResetpassword' : (context) => otpVerficationResetpassword(),
+        // '/otpVerficationResetpassword' : (context) => otpVerficationResetpassword(),
         '/Newpassword': (context) => Newpassword(),
       },
 
