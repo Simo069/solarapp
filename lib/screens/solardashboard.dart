@@ -36,9 +36,9 @@ class _solardashboardState extends State<solardashboard> {
   double capacity = 42.0;
   double co2Reduction = 28.2;
   double generatedSolar = 140.65;
-  bool isMainElectricity = false;
+  bool isMainElectricity = true;
 
-  // Chart data
+  // Chart dataisMainElectricity
   List<FlSpot> chartData = [];
 
   // Timer for simulating live data
@@ -134,9 +134,6 @@ class _solardashboardState extends State<solardashboard> {
       ),
       bottomNavigationBar: CustomBottomNavBar(selectedIndex: _selectedIndex,),
     );
-  
-    
-
   }
 
   Widget _buildfirstsection(UserModel? user) {

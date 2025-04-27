@@ -6,6 +6,7 @@ import 'package:solarapp/screens/HomeScreen.dart';
 import 'package:solarapp/screens/SolarDetailsScreen.dart';
 import 'package:solarapp/screens/SolarconnScreen.dart';
 import 'package:solarapp/screens/StatisticsScreen.dart';
+import 'package:solarapp/screens/articles.dart';
 import 'package:solarapp/screens/auth/AccountScreen.dart';
 import 'package:solarapp/screens/InstallerMapScreen.dart';
 import 'package:solarapp/screens/InstallerProfileScreen.dart';
@@ -19,6 +20,7 @@ import 'package:solarapp/screens/auth/loginSuccessScreen.dart';
 import 'package:solarapp/screens/auth/otpVerficationResetpassword.dart';
 import 'package:solarapp/screens/editProfile.dart';
 import 'package:solarapp/screens/settingScreen.dart';
+import 'package:solarapp/screens/solarDetailScreenParameter.dart';
 import 'package:solarapp/services/fireAuth/UserProvider.dart';
 import 'package:solarapp/screens/solardashboard.dart';
 import 'package:solarapp/screens/auth/OTPVerificationScreen.dart';
@@ -79,22 +81,23 @@ class _MyAppState extends State<MyApp> {
 
       initialRoute: '/',
       routes:{
-        '/': (context) => const HomeScreen(),
-        '/ExplorePage': (context) => const ExplorePage(),
-        '/StatisticsScreen': (context) => const StatisticsScreen(),
-        '/SolarconnScreen': (context) => const SolarconnScreen(),
-        '/SolarDetailsScreen': (context) => const SolarDetailsScreen(),
+        // '/' : (context) => article(),
+        '/': (context) => HomeScreen(),
+        '/ExplorePage': (context) =>  ExplorePage(),
+        '/StatisticsScreen': (context) =>  StatisticsScreen(),
+        '/SolarconnScreen': (context) =>  SolarconnScreen(),
+        '/SolarDetailsScreen': (context) =>  SolarDetailsScreen(),
         
 
         '/loginScreen': (context) => loginScreen(),
         '/dashboard': (context) => solardashboard(),
-        '/InstallerProfileScreen': (context) => InstallerProfileScreen(),
+        // '/InstallerProfileScreen': (context) => InstallerProfileScreen(),
         '/InstallerMapScreen': (context) => InstallerMapScreen(),
         '/AccountScreen': (context) => AccountScreen(),
         '/settingScreen': (context) => settingScreen(),
         '/editProfile': (context) => editProfile(),
         '/Notificationscreen': (context) => Notificationscreen(),
-        
+        '/solarDetailscreenparameter':(context) => solarDetailscreenparameter() ,
   
         '/loginSuccessScreen': (context) => loginSuccessScreen(),
         '/createAccount': (context) => createAccount(),
@@ -103,13 +106,10 @@ class _MyAppState extends State<MyApp> {
         '/ResetPasswordscreen': (context) => ResetPasswordscreen(),
         // '/otpVerficationResetpassword' : (context) => otpVerficationResetpassword(),
         '/Newpassword': (context) => Newpassword(),
+        // '/article' : (context) => article(),
       },
 
-      // home: const ExplorePage(),
-      // home: const StatisticsScreen(),
-      // home: const SolarconnScreen(),
-      // home: HomeScreen(),
-      // home: const SolarDetailsScreen(),
+    
 
       
     );

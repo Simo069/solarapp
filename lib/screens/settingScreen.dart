@@ -40,7 +40,9 @@ class _settingScreenState extends State<settingScreen> {
           buildSettingItem(
             icon: Icons.solar_power_outlined,
             title: "Solar Details",
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, '/solarDetailscreenparameter');
+            },
           ),
           buildSettingItem(
             icon: Icons.mail_outline,
