@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "428339605589",
+    "project_id": "solarapp-1e8ca",
+    "storage_bucket": "solarapp-1e8ca.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:428339605589:android:12e05e4e233b49bb0664dc",
+        "android_client_info": {
+          "package_name": "com.example.solarapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXsWr3WiUm8lmEzjULvu1a9Ly6pnYizYs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
