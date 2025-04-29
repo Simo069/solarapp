@@ -216,30 +216,58 @@ class _articleState extends State<article> {
             SizedBox(height: 20),
             ...widget.articles.map(
               (article) => GestureDetector(
+                // onTap: () async {
+                //   final url = article.url;
+                //   if (url != null && await canLaunchUrl(Uri.parse(url))) {
+                //     await launchUrl(
+                //       Uri.parse(url),
+                //       mode: LaunchMode.externalApplication,
+                //     );
+                //   } else {
+                //     ScaffoldMessenger.of(context).showSnackBar(
+                //       SnackBar(content: Text('Could not open the link') ,
+                //       elevation: 6,
+                //       margin: EdgeInsets.symmetric(horizontal: 20 , vertical: 10),
+                //       shape: RoundedRectangleBorder(
+                //         borderRadius:BorderRadius.circular(20),
+                //         side: BorderSide.none,
+
+                //       ),
+                //       behavior: SnackBarBehavior.floating,
+                //       backgroundColor: Colors.red,
+                //       ),
+                //     );
+                //   }
+                // },
                 onTap: () async {
                   final url = article.url;
-                  if (url != null && await canLaunchUrl(Uri.parse(url))) {
-                    await launchUrl(
-                      Uri.parse(url),
-                      mode: LaunchMode.externalApplication,
-                    );
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Could not open the link') ,
-                      elevation: 6,
-                      margin: EdgeInsets.symmetric(horizontal: 20 , vertical: 10),
-                      shape: RoundedRectangleBorder(
-                        borderRadius:BorderRadius.circular(20),
-                        side: BorderSide.none,
-
-                      ),
-                      behavior: SnackBarBehavior.floating,
-                      backgroundColor: Colors.red,
-                      ),
-                    );
+                  if (url != null) {
+                    try {
+                      await launchUrl(
+                        Uri.parse(url),
+                        mode: LaunchMode.externalApplication,
+                      );
+                    } catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Could not open the link'),
+                          elevation: 6,
+                          margin: EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 10,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    }
                   }
                 },
-                // 
+
+                //
                 child: Card(
                   margin: EdgeInsets.only(bottom: 16),
                   shape: RoundedRectangleBorder(
