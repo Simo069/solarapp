@@ -40,7 +40,13 @@ class _settingScreenState extends State<settingScreen> {
           buildSettingItem(
             icon: Icons.solar_power_outlined,
             title: "Solar Details",
+<<<<<<< HEAD
             onTap: () {},
+=======
+            onTap: () {
+              Navigator.pushNamed(context, '/solarDetailscreenparameter');
+            },
+>>>>>>> db5cc08d650675734ec3be40f1d9ebf5774903ee
           ),
           buildSettingItem(
             icon: Icons.mail_outline,
@@ -50,23 +56,35 @@ class _settingScreenState extends State<settingScreen> {
           buildSettingItem(
             icon: Icons.description_outlined,
             title: "Terms & Conditions",
+<<<<<<< HEAD
             onTap: () {
               Navigator.pushNamed(context, '/TermsConditionsScreen');
             },
+=======
+            onTap: () {},
+>>>>>>> db5cc08d650675734ec3be40f1d9ebf5774903ee
           ),
           buildSettingItem(
             icon: Icons.lock_outline,
             title: "Privacy Policy",
+<<<<<<< HEAD
             onTap: () {
               Navigator.pushNamed(context, '/PrivacyPolicyScreen');
             },
+=======
+            onTap: () {},
+>>>>>>> db5cc08d650675734ec3be40f1d9ebf5774903ee
           ),
           buildSettingItem(
             icon: Icons.info_outline,
             title: "About",
+<<<<<<< HEAD
             onTap: () {
               Navigator.pushNamed(context, '/AboutUsScreen');
             },
+=======
+            onTap: () {},
+>>>>>>> db5cc08d650675734ec3be40f1d9ebf5774903ee
           ),
           buildSettingItem(
             icon: Icons.logout,

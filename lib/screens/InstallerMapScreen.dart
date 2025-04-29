@@ -33,7 +33,6 @@ class _InstallerMapScreenState extends State<InstallerMapScreen> {
 
   void _loadInstallers() {
     // Sample installer data - in a real app this would come from your API/database
-    
     final List<InstallerProfile> installers = [
       InstallerProfile(
         id: '1',
@@ -132,6 +131,22 @@ class _InstallerMapScreenState extends State<InstallerMapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.arrow_back_ios_new_sharp),
+        ),
+        title: Text(
+          "Map to find Installers",
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+        ),
+      ),
       body: Stack(
         children: [
           // Google Map taking the full screen
@@ -179,7 +194,6 @@ class _InstallerMapScreenState extends State<InstallerMapScreen> {
                 child: Row(
                   children: [
                     // Installer image
-                  
                     ClipRRect(
                       borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(10),

@@ -75,7 +75,7 @@ class CustomBottomNavBar extends StatelessWidget {
     '/dashboard',
     '/StatisticsScreen',
     '/ExplorePage',
-    '/Notifications',
+    '/Notificationscreen',
     '/settingScreen',
   ];
 }

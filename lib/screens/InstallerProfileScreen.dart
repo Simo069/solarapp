@@ -1,60 +1,102 @@
 import 'package:flutter/material.dart';
 import 'package:solarapp/Models/InstallerProfile.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:solarapp/component/CustomBottomNavBar.dart';
 
 class InstallerProfileScreen extends StatefulWidget {
-  InstallerProfileScreen({super.key});
+  final InstallerProfile profile;
+  InstallerProfileScreen({super.key, required this.profile});
   State<InstallerProfileScreen> createState() => _InstallerProfileScreenState();
 }
 
 class _InstallerProfileScreenState extends State<InstallerProfileScreen> {
   int _selectedIndex = 2;
-  final InstallerProfile profile = InstallerProfile(
-    id:1.toString(),
-    name: 'Mohammed Boukhatem',
-    rating: 4.0,
-    certification: 'RGE certified',
-    company: 'SolarTech Solutions',
-    experience: '10 years in solar panel installation',
-    serviceArea: 'Casablanca',
-    contact: 'mohammed.boukhatem@solartech.ma | +212 604 470 620',
-    description:
-        'Jean Dupont is a certified installer specializing in photovoltaic and '
-        'thermal solar panels. He supports his clients from project planning to '
-        'installation and maintenance. With his expertise, he ensures '
-        'installations meet the highest standards, guaranteeing optimal '
-        'energy production and long-term savings.',
-    imageUrl: 'https://example.com/profile.jpg',
-    price: 400,
-    position: const LatLng(37.7699, -122.4960), // Replace with your image URL
-  );
+  // final InstallerProfile profile = InstallerProfile(
+  //   id:1.toString(),
+  //   name: 'Mohammed Boukhatem',
+  //   rating: 4.0,
+  //   certification: 'RGE certified',
+  //   company: 'SolarTech Solutions',
+  //   experience: '10 years in solar panel installation',
+  //   serviceArea: 'Casablanca',
+  //   contact: 'mohammed.boukhatem@solartech.ma | +212 604 470 620',
+  //   description:
+  //       'Jean Dupont is a certified installer specializing in photovoltaic and '
+  //       'thermal solar panels. He supports his clients from project planning to '
+  //       'installation and maintenance. With his expertise, he ensures '
+  //       'installations meet the highest standards, guaranteeing optimal '
+  //       'energy production and long-term savings.',
+  //   imageUrl: 'https://example.com/profile.jpg',
+  //   price: 400,
+  //   position: const LatLng(37.7699, -122.4960), // Replace with your image URL
+  // );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text(''),
-      //   centerTitle: true,
-      //   elevation: 0,
-        
-      // ),
       body: SafeArea(
-        
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: 40,),
+              SizedBox(height: 30),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Find and contact certified installers with',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w300,
-                      ),
+                    SizedBox(width: 8),
+                    // Row(
+
+                    //   children: [
+                    //     Container(
+                    //       alignment: Alignment.topLeft,
+                    //       child: IconButton(
+                    //         onPressed: () {
+                    //           Navigator.pop(context);
+                    //         },
+                    //         icon: Icon(
+                    //           Icons.arrow_back_ios_new_sharp,
+                    //           color: Colors.black,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //     Text(
+                    //       'Find and contact certified installers with',
+                    //       style: TextStyle(
+                    //         fontSize: 18,
+                    //         fontWeight: FontWeight.w300,
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
+                    Row(
+                      children: [
+                        Container(
+                          alignment: Alignment.topLeft,
+                          child: IconButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: Icon(
+                              Icons.arrow_back_ios_new_sharp,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          // 👈 Added this
+                          child: Text(
+                            'Find and contact certified installers with',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w300,
+                            ),
+                            overflow: TextOverflow.visible, // optional
+                            softWrap: true, // optional but ensures wrapping
+                          ),
+                        ),
+                      ],
                     ),
+
                     const SizedBox(height: 2),
                     Row(
                       children: [
@@ -102,19 +144,17 @@ class _InstallerProfileScreenState extends State<InstallerProfileScreen> {
                 ),
               ),
               const SizedBox(height: 30),
-              InstallerProfileCard(profile: profile),
+              InstallerProfileCard(profile: widget.profile),
               const SizedBox(height: 20),
             ],
           ),
         ),
       ),
-    
-    
-      bottomNavigationBar: _buildBottomNavBar(),
-    
-    
+
+      bottomNavigationBar: CustomBottomNavBar(selectedIndex: 2),
     );
   }
+
   Widget _buildBottomNavBar() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 12),
@@ -167,7 +207,6 @@ class _InstallerProfileScreenState extends State<InstallerProfileScreen> {
       ),
     );
   }
-
 }
 
 class InstallerProfileCard extends StatelessWidget {
@@ -195,7 +234,7 @@ class InstallerProfileCard extends StatelessWidget {
                   border: Border.all(color: Colors.green, width: 3),
                 ),
                 child: ClipOval(
-                  child: Image.network(
+                  child: Image.asset(
                     profile.imageUrl,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
@@ -413,34 +452,77 @@ class InstallerProfileCard extends StatelessWidget {
           ),
 
           const SizedBox(height: 15),
-          Center(
-            child: RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: 'Or ',
-                    style: TextStyle(color: Colors.black54, fontSize: 16),
-                  ),
-                  TextSpan(
-                    text: 'click here',
-                    style: TextStyle(
-                      color: Colors.black87,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  TextSpan(
-                    text: ' to see in map',
-                    style: TextStyle(color: Colors.black54, fontSize: 16),
-                  ),
-                ],
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Or ',
+                style: TextStyle(color: Colors.black54, fontSize: 16),
               ),
-            ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/InstallerMapScreen');
+                },
+                style: ElevatedButton.styleFrom(
+                  elevation: 0,
+                  padding: EdgeInsets.zero,
+                  backgroundColor: Colors.transparent,
+                ),
+                child: Text(
+                  'click here',
+                  style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Text(
+                ' to see in map',
+                style: TextStyle(color: Colors.black54, fontSize: 16),
+              ),
+            ],
           ),
-          const SizedBox(height: 30),
+          // Center(
+          //   child: RichText(
+          //     text: TextSpan(
+          //       children: [
+          //         TextSpan(
+          //           text: 'Or ',
+          //           style: TextStyle(color: Colors.black54, fontSize: 16),
+          //         ),
+          //         WidgetSpan(
+          //           child: ElevatedButton(
+          //             onPressed: () {
+          //               Navigator.pushNamed(context, '/InstallerMapScreen');
+          //             },
+          //             style: ElevatedButton.styleFrom(
+          //               elevation: 0,
+          //               padding: EdgeInsets.zero,
+          //               backgroundColor: Colors.transparent,
+          //             ),
+          //             child: Text(
+          //               'click here',
+          //               style: TextStyle(
+          //                 color: Colors.black87,
+          //                 fontSize: 16,
+          //                 fontWeight: FontWeight.bold,
+          //               ),
+          //             ),
+          //           ),
+          //         ),
+          //         TextSpan(
+          //           text: ' to see in map',
+          //           style: TextStyle(color: Colors.black54, fontSize: 16),
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
+
+          // const SizedBox(height: 30),
         ],
       ),
     );
-
   }
 }
